@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -166,9 +167,11 @@ public class Missile {
             //     memeText.setText(memeSubtitle);
             // }
 
+        
 
-            Rectangle2D f = (new Font("Impact", Font.BOLD, 50)).getStringBounds("memeSubtitle", g.getFontRenderContext());
-            System.out.println("F: " + f);
+            // Rectangle2D f = (new Font("Impact", Font.BOLD, 50)).getStringBounds("memeSubtitle", g.getFontRenderContext());
+            
+            // System.out.println("F: " + f + " width: " + f.getWidth());
 
             // Reading from file
             try {
@@ -178,17 +181,52 @@ public class Missile {
                 int charCount = 0;
                 int character;
 
+                int[] spacePos = new int[10];
+                int spaceCount = 0;
+                int spaceCharCount = 0;
+
                 String txt = "";
                 while((character = bufferedReader.read()) != -1) {
-                    if(charCount % 15 == 0){
+                    if((char) character == ' '){
+                        spacePos[spaceCount] = spaceCharCount;
+                        spaceCount++;
+
+
+                        System.out.println("SPACE! spaceCount: " + spaceCount);
+                    }
+
+                    if((new Font("Impact", Font.BOLD, 50)).getStringBounds(txt, g.getFontRenderContext()).getWidth() > 400){
+                        
+                        txt.substring(spacePos[0], spacePos[spaceCount-1]);
                         memeSubtitle = txt;
                         memeText.setText(memeSubtitle);
-                        txt = "";
+                        //System.out.println("Txt: " + txt + " spaceCount: " + spaceCount + " spacePos: " + spacePos[spaceCount-1]);
+                        System.out.println("txt: " + txt);
+
+                        txt="";
+                        Arrays.fill(spacePos, 0);
+                        spaceCount = 0;
+                        spaceCharCount = 0;
+
                         Thread.sleep(2000);
+                        //System.out.println("spaceCount: " + spaceCount + " txt: " + txt);
                     }
+                    // if(charCount % 15 == 0){
+                    //     memeSubtitle = txt;
+                    //     memeText.setText(memeSubtitle);
+
+                    //Rectangle2D txtData = (new Font("Impact", Font.BOLD, 50)).getStringBounds(txt, g.getFontRenderContext());
+                    //System.out.println("txtData: " + txtData + " width: " + txtData.getWidth());
+
+                    //     txt = "";
+                    //     Thread.sleep(2000);
+                    // }
                     txt+=((char) character);
                     charCount++;
+                    spaceCharCount++;
+                    //System.out.println("txt at the end: " + txt);
                 }
+                
                 bufferedReader.close();
 
             } catch(IOException e){
