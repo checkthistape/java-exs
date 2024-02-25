@@ -1,5 +1,10 @@
+package Missile;
 import javax.swing.JFrame;
+
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -55,7 +60,7 @@ public class Missile {
         BufferedImage mainFrame;
         try {
 
-            image = ImageIO.read(new FileInputStream("missile.jpg"));
+            image = ImageIO.read(new FileInputStream("../missile.jpg"));
 
             AffineTransform at = new AffineTransform();
 
@@ -82,8 +87,9 @@ public class Missile {
             // System.out.println("Metrics for text (height): " + metrics.getHeight());
             // System.out.println("Metrics for text (width): " + metrics.width
 
-            Rectangle2D f = (new Font("Impact", Font.BOLD, 50)).getStringBounds("memeSubtitle", g.getFontRenderContext());
-            System.out.println("F: " + f);
+            
+
+            
 
             label.addKeyListener(new KeyListener() {
                 @Override
@@ -147,18 +153,48 @@ public class Missile {
             window.pack();
             window.setVisible(true);
 
-            for(int i = 0; i<10; i++){
-                memeSubtitle = String.valueOf(i);
+            // for(int i = 0; i<10; i++){
+            //     memeSubtitle = String.valueOf(i);
                 
-                System.out.println("yopyo");
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e1) {
+            //     System.out.println("yopyo");
+            //     try {
+            //         Thread.sleep(2000);
+            //     } catch (InterruptedException e1) {
                     
-                    e1.printStackTrace();
+            //         e1.printStackTrace();
+            //     }
+            //     memeText.setText(memeSubtitle);
+            // }
+
+
+            Rectangle2D f = (new Font("Impact", Font.BOLD, 50)).getStringBounds("memeSubtitle", g.getFontRenderContext());
+            System.out.println("F: " + f);
+
+            // Reading from file
+            try {
+                FileReader fileReader = new FileReader("Missile/copypasta.txt");
+                BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+                int charCount = 0;
+                int character;
+
+                String txt = "";
+                while((character = bufferedReader.read()) != -1) {
+                    if(charCount % 15 == 0){
+                        memeSubtitle = txt;
+                        memeText.setText(memeSubtitle);
+                        txt = "";
+                        Thread.sleep(2000);
+                    }
+                    txt+=((char) character);
+                    charCount++;
                 }
-                memeText.setText(memeSubtitle);
+                bufferedReader.close();
+
+            } catch(IOException e){
+                e.printStackTrace();
             }
+
         }
         catch(Exception e) {
             System.out.println("Error!");

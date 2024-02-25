@@ -1,4 +1,7 @@
+package Missile;
 import javax.swing.JFrame;
+
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
@@ -39,6 +42,7 @@ public class Missile {
         JFrame window = new JFrame("The missile");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JTextArea textArea = new JTextArea();
         textArea.setEditable(false);
@@ -54,10 +58,7 @@ public class Missile {
         BufferedImage mainFrame;
         try {
 
-            
-
-
-            image = ImageIO.read(new FileInputStream("missile.jpg"));
+            image = ImageIO.read(new FileInputStream("../missile.jpg"));
 
             AffineTransform at = new AffineTransform();
 
@@ -87,24 +88,17 @@ public class Missile {
             Rectangle2D f = (new Font("Impact", Font.BOLD, 50)).getStringBounds("memeSubtitle", g.getFontRenderContext());
             System.out.println("F: " + f);
 
+            // Reading from file
+            File pasta = new File("../copypasta.txt");
+            
+
             label.addKeyListener(new KeyListener() {
                 @Override
                 public void keyPressed(KeyEvent e){
                     // if(e.getKeyCode() == KeyEvent.VK_SPACE) {
                     //     System.out.println("yopyo");
                     // }
-                    for(int i = 0; i<10; i++){
-                        memeSubtitle = String.valueOf(i);
-                        
-                        System.out.println("yopyo");
-                        try {
-                            Thread.sleep(2000);
-                        } catch (InterruptedException e1) {
-                            // TODO Auto-generated catch block
-                            e1.printStackTrace();
-                        }
-                        action(memeSubtitle);
-                    }
+                    
                 }
     
                 @Override
@@ -157,16 +151,31 @@ public class Missile {
             //label.add(memeText);
             //window.
             
-            
+            window.pack();
+            window.setVisible(true);
+
+            for(int i = 0; i<10; i++){
+                memeSubtitle = String.valueOf(i);
+                
+                System.out.println("yopyo");
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e1) {
+                    
+                    e1.printStackTrace();
+                }
+                memeText.setText(memeSubtitle);
+            }
         }
         catch(Exception e) {
             System.out.println("Error!");
             e.printStackTrace();
         }
 
-        window.pack();
-        window.setVisible(true);
+        
 
         
+        
+
     }
 }
