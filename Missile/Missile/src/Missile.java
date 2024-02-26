@@ -2,11 +2,6 @@ package Missile.src;
 
 import javax.swing.JFrame;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.Arrays;
 
 import javax.imageio.ImageIO;
@@ -35,6 +30,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
+import java.io.*;
+
 public class Missile {
 
     static BufferedImage image;
@@ -59,7 +56,11 @@ public class Missile {
         BufferedImage mainFrame;
         try {
 
-            image = ImageIO.read(new FileInputStream("../missile.jpg"));
+            
+            //image = ImageIO.read(new FileInputStream("../missile.jpg"));
+            
+            
+            image = ImageIO.read(Missile.class.getResourceAsStream("../missile.jpg"));
 
             AffineTransform at = new AffineTransform();
 
@@ -93,7 +94,8 @@ public class Missile {
             window.setVisible(true);
 
             try {
-                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("Missile/res/missile.wav").getAbsoluteFile());
+                //AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("Missile/res/missile.wav").getAbsoluteFile());
+                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(Missile.class.getResourceAsStream("/Missile/res/missile.wav"));
                 Clip clip = AudioSystem.getClip();
                 clip.open(audioInputStream);
                 clip.start();
@@ -109,7 +111,13 @@ public class Missile {
             try {
                 Thread.sleep(2000);
 
-                FileReader fileReader = new FileReader("Missile/res/copypasta.txt");
+                //FileReader fileReader = new FileReader("Missile/res/copypasta.txt");
+                // FileReader fileReader = new FileReader(new InputStreamReader(
+                //     ClassLoader.getSystemClassLoader()
+                //                .getResourceAsStream("Missile/res/copypasta.txt")));
+
+                //FileReader fileReader = Missile.class.getResourceAsStream("/Missile/res/copypasta.txt");
+                InputStreamReader fileReader = new InputStreamReader(Missile.class.getResourceAsStream("/Missile/res/copypasta.txt"));
                 BufferedReader bufferedReader = new BufferedReader(fileReader);
 
                 
