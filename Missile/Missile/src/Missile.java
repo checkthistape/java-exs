@@ -42,7 +42,7 @@ public class Missile {
     static String memeSubtitle = "";
 
     public static void main(String[] args) {
-        JFrame window = new JFrame("The missile");
+        JFrame window = new JFrame("The missile    |    created by github.com/checkthistape");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
         //window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -57,10 +57,11 @@ public class Missile {
         try {
 
             
-            //image = ImageIO.read(new FileInputStream("../missile.jpg"));
+            //image = ImageIO.read(new FileInputStream("../missile.jpg")); // for a default version
             
-            
-            image = ImageIO.read(Missile.class.getResourceAsStream("../missile.jpg"));
+            //image = ImageIO.read(Missile.class.getResourceAsStream("missile.jpg")); // for a jar version 1
+
+            image = ImageIO.read(Missile.class.getResourceAsStream("/Missile/res/missile.jpg")); // for a jar version 2
 
             AffineTransform at = new AffineTransform();
 
@@ -91,17 +92,28 @@ public class Missile {
             label.setIcon(new ImageIcon(mainFrame));
 
             window.pack();
+
+            window.setLocationRelativeTo(null);
+
             window.setVisible(true);
 
             try {
-                //AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("Missile/res/missile.wav").getAbsoluteFile());
-                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(Missile.class.getResourceAsStream("/Missile/res/missile.wav"));
+                //AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("Missile/res/missile.wav").getAbsoluteFile()); // for a default version
+
+                // read audio data from source
+                //AudioInputStream audioInputSrc = AudioSystem.getAudioInputStream(Missile.class.getResourceAsStream("/Missile/res/missile.wav")); // for a jar version
+                
+                // add buffer for mark/reset support
+                BufferedInputStream bufferedIn = new BufferedInputStream(Missile.class.getResourceAsStream("/Missile/res/missile.wav"));
+                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(bufferedIn);
+
+                // ready for play
                 Clip clip = AudioSystem.getClip();
                 clip.open(audioInputStream);
                 clip.start();
             }
             catch(IOException e){
-                JOptionPane.showMessageDialog(null, "Problem with audio file");
+                JOptionPane.showMessageDialog(null, "Problem with audio file" + e);
             }
             
 
@@ -111,14 +123,24 @@ public class Missile {
             try {
                 Thread.sleep(2000);
 
-                //FileReader fileReader = new FileReader("Missile/res/copypasta.txt");
+                // for a default version 1
+                // FileReader fileReader = new FileReader("../res/copypasta.txt");
+                // BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+                // for a jar version 0 #works
+                InputStreamReader fileReader = new InputStreamReader(Missile.class.getResourceAsStream("/Missile/res/copypasta.txt"));
+                BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+                // for a jar version 1
                 // FileReader fileReader = new FileReader(new InputStreamReader(
                 //     ClassLoader.getSystemClassLoader()
                 //                .getResourceAsStream("Missile/res/copypasta.txt")));
-
                 //FileReader fileReader = Missile.class.getResourceAsStream("/Missile/res/copypasta.txt");
-                InputStreamReader fileReader = new InputStreamReader(Missile.class.getResourceAsStream("/Missile/res/copypasta.txt"));
-                BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+                // for a jar version 2
+                // InputStreamReader fileReader = new InputStreamReader(Missile.class.getResourceAsStream("/Missile/res/copypasta.txt"));
+                // InputStream inp = ClassLoader.getSystemClassLoader().getResourceAsStream("/Missile/res/copypasta.txt");
+                // BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inp));
 
                 
                 int character;
