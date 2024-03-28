@@ -1,0 +1,59 @@
+# Command to create a .class file with a .java file
+javac Missile/src/Missile.java
+
+# Create a manifest file with the correct path to the main class.
+
+manifest.MF:
+Manifest-Version: 1.0
+Main-Class: Missile.src.Missile 
+Class-Path: .
+Created-By: checkthistape
+
+# Command to create a jar package with a manifest file from the folder and all resources (image, text, music)
+jar cfm missile.jar Missile/manifest.MF Missile/*
+
+# Command to check what modules my project uses
+jdeps -verbose  .\missile.jar
+
+RESULT:
+missile.jar -> java.base
+missile.jar -> java.desktop
+   Missile.src.Missile                                -> java.awt.Color                                     java.desktop
+   Missile.src.Missile                                -> java.awt.Component                                 java.desktop
+   Missile.src.Missile                                -> java.awt.Container                                 java.desktop
+   Missile.src.Missile                                -> java.awt.Font                                      java.desktop
+   Missile.src.Missile                                -> java.awt.Graphics2D                                java.desktop
+   Missile.src.Missile                                -> java.awt.Image                                     java.desktop
+   Missile.src.Missile                                -> java.awt.LayoutManager                             java.desktop
+   Missile.src.Missile                                -> java.awt.geom.AffineTransform                      java.desktop
+   Missile.src.Missile                                -> java.lang.invoke.MethodHandles$Lookup              java.base
+   Missile.src.Missile                                -> java.lang.invoke.MethodType                        java.base
+   Missile.src.Missile                                -> java.lang.invoke.StringConcatFactory               java.base
+   Missile.src.Missile                                -> javax.imageio.ImageIO                              java.desktop
+   Missile.src.Missile                                -> javax.sound.sampled.AudioInputStream               java.desktop
+   Missile.src.Missile                                -> javax.sound.sampled.AudioSystem                    java.desktop
+   Missile.src.Missile                                -> javax.sound.sampled.Clip                           java.desktop
+   Missile.src.Missile                                -> javax.swing.Icon                                   java.desktop
+   Missile.src.Missile                                -> javax.swing.ImageIcon                              java.desktop
+   Missile.src.Missile                                -> javax.swing.JFrame                                 java.desktop
+   Missile.src.Missile                                -> javax.swing.JLabel                                 java.desktop
+   Missile.src.Missile                                -> javax.swing.JOptionPane                            java.desktop
+   Missile.src.Missile                                -> javax.swing.JTextArea                              java.desktop
+   Missile.src.Missile                                -> javax.swing.OverlayLayout                          java.desktop
+
+# Command to create a "diet" jdk folder with modules my project needs (java.base, java.desktop)
+jlink --add-modules java.base,java.desktop --output folder
+
+# run.bat file:
+
+@echo off
+setlocal
+
+set "HERE=%~dp0"
+
+start "" "%HERE%\jre\bin\javaw.exe" -jar "%HERE%\missile.jar"
+
+endlocal
+
+# Utility that packs JRE with a .jar package and runs it with a .bat file (in that case, run.bat) (https://github.com/dgiagio/warp)
+warp-packer --arch windows-x64 --input_dir project --exec run.bat --output missile.exe
