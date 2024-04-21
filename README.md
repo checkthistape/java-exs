@@ -1,5 +1,5 @@
 
-# missile.exe <img src="https://github.com/checkthistape/missile.exe/blob/main/res/missile.jpg" width="89px" height="50px"></p>
+# missile.exe <img src="https://github.com/checkthistape/missile.exe/blob/main/res/missile.jpg" width="59px" height="33px"></p>
 
 <p text-align="left"><b>missile.exe</b> is a fun and innovative project designed to create an executable meme experience.
 The highlight of this project is the creation of a meme <strong>executable</strong> titled <strong>"The missile knows..."</strong>
